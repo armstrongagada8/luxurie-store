@@ -1,4 +1,3 @@
-javascript
 const ORDER_EMAIL = "shopatluxurie@gmail.com";
 const DELIVERY_FEE = 0;
 
