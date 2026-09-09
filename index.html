@@ -6,169 +6,694 @@
 <meta name="theme-color" content="#111111">
 <title>Luxurie — Everyday essentials, elevated.</title>
 <meta name="description" content="Shop thoughtfully selected everyday essentials at Luxurie. Simple shopping, clear pricing, and a premium experience.">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-<div class="announcement">LIMITED-TIME OFFER <span>•</span> Discover our customer favorites</div>
+
+<div class="announcement">
+  LIMITED-TIME OFFER <span>•</span> Discover our customer favorites
+</div>
+
 <header class="site-header">
   <div class="header-inner">
-    <a href="#home" class="logo" data-nav="home" aria-label="Luxurie home">Luxurie<span>.</span></a>
+
+    <a href="#home" class="logo" data-nav="home" aria-label="Luxurie home">
+      Luxurie<span>.</span>
+    </a>
+
     <nav class="main-nav" id="main-nav" aria-label="Primary navigation">
       <a href="#home" data-nav="home">Home</a>
       <a href="#shop" data-nav="shop">Shop</a>
       <a href="#about" data-nav="about">Our Story</a>
       <a href="#contact" data-nav="contact">Contact</a>
     </nav>
+
     <div class="header-actions">
       <button class="cart-btn" id="cart-btn" aria-label="Open shopping cart">
-        <span class="cart-icon">Bag</span><span class="cart-count" id="cart-count">0</span>
+        <span class="cart-icon">Bag</span>
+        <span class="cart-count" id="cart-count">0</span>
       </button>
-      <button class="menu-toggle" id="menu-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+
+      <button class="menu-toggle" id="menu-toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
+
   </div>
 </header>
 
 <main>
+
 <section class="page active" id="home" data-page="home">
+
   <div class="hero">
+
     <div class="hero-copy">
-      <div class="eyebrow"><span class="eyebrow-dot"></span>Curated for modern everyday life</div>
-      <h1>Better things.<br><em>Better everyday.</em></h1>
-      <p class="hero-sub">Discover practical, beautifully designed essentials chosen to make your everyday routine feel a little more elevated.</p>
-      <div class="hero-actions">
-        <a href="#shop" class="btn btn-primary btn-large" data-nav="shop">Shop best sellers <span>→</span></a>
-        <a href="#shop" class="text-link" data-nav="shop">Explore the collection</a>
+      <div class="eyebrow">
+        <span class="eyebrow-dot"></span>
+        Curated for modern everyday life
       </div>
+
+      <h1>Better things.<br><em>Better everyday.</em></h1>
+
+      <p class="hero-sub">
+        Discover practical, beautifully designed essentials chosen to make your everyday routine feel a little more elevated.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#shop" class="btn btn-primary btn-large" data-nav="shop">
+          Shop best sellers <span>→</span>
+        </a>
+
+        <a href="#shop" class="text-link" data-nav="shop">
+          Explore the collection
+        </a>
+      </div>
+
       <div class="hero-proof">
-        <div class="proof-avatars"><span>✓</span><span>✓</span><span>✓</span></div>
-        <div><strong>Simple shopping, thoughtfully selected.</strong><small>Clear prices • Easy ordering • U.S. checkout</small></div>
+        <div class="proof-avatars">
+          <span>✓</span><span>✓</span><span>✓</span>
+        </div>
+
+        <div>
+          <strong>Simple shopping, thoughtfully selected.</strong>
+          <small>Clear prices • Easy ordering • U.S. checkout</small>
+        </div>
       </div>
     </div>
+
     <div class="hero-visual">
       <div class="hero-glow"></div>
       <div class="hero-label">THE LUXURIE EDIT</div>
-      <div class="hero-product hero-product-main"><img src="images/watch.svg" alt="Featured Luxurie smart watch"></div>
-      <div class="hero-product hero-product-left"><img src="images/earbuds.svg" alt="Luxurie wireless earbuds"></div>
-      <div class="hero-product hero-product-right"><img src="images/bottle.svg" alt="Luxurie premium water bottle"></div>
-      <div class="hero-stamp">MADE<br>FOR<br>EVERYDAY</div>
+
+      <div class="hero-product hero-product-main">
+        <img src="images/watch.svg" alt="Featured Luxurie smart watch">
+      </div>
+
+      <div class="hero-product hero-product-left">
+        <img src="images/earbuds.svg" alt="Luxurie wireless earbuds">
+      </div>
+
+      <div class="hero-product hero-product-right">
+        <img src="images/bottle.svg" alt="Luxurie premium water bottle">
+      </div>
+
+      <div class="hero-stamp">
+        MADE<br>FOR<br>EVERYDAY
+      </div>
     </div>
+
   </div>
 
   <div class="benefit-bar">
-    <div><strong>Curated essentials</strong><span>Useful products, selected with purpose</span></div>
-    <div><strong>Transparent pricing</strong><span>No surprises at checkout</span></div>
-    <div><strong>Easy ordering</strong><span>Simple checkout in minutes</span></div>
-    <div><strong>Support when needed</strong><span>Questions? We’re here to help</span></div>
+    <div>
+      <strong>Curated essentials</strong>
+      <span>Useful products, selected with purpose</span>
+    </div>
+
+    <div>
+      <strong>Transparent pricing</strong>
+      <span>No surprises at checkout</span>
+    </div>
+
+    <div>
+      <strong>Easy ordering</strong>
+      <span>Simple checkout in minutes</span>
+    </div>
+
+    <div>
+      <strong>Support when needed</strong>
+      <span>Questions? We’re here to help</span>
+    </div>
   </div>
 
   <section class="sales-section">
     <div class="section-heading split-heading">
-      <div><span class="section-kicker">SHOP THE EDIT</span><h2>What customers reach for first.</h2></div>
-      <a href="#shop" class="link-arrow" data-nav="shop">View all products <span>→</span></a>
+      <div>
+        <span class="section-kicker">SHOP THE EDIT</span>
+        <h2>What customers reach for first.</h2>
+      </div>
+
+      <a href="#shop" class="link-arrow" data-nav="shop">
+        View all products <span>→</span>
+      </a>
     </div>
+
     <div class="product-grid" id="home-product-grid"></div>
   </section>
 
   <section class="conversion-banner">
-    <div><span class="section-kicker">YOUR NEXT FAVORITE</span><h2>Small upgrades. Big difference.</h2><p>Start with one essential and build a collection that works for your everyday.</p></div>
-    <a href="#shop" class="btn btn-light" data-nav="shop">Start shopping <span>→</span></a>
+    <div>
+      <span class="section-kicker">YOUR NEXT FAVORITE</span>
+      <h2>Small upgrades. Big difference.</h2>
+      <p>
+        Start with one essential and build a collection that works for your everyday.
+      </p>
+    </div>
+
+    <a href="#shop" class="btn btn-light" data-nav="shop">
+      Start shopping <span>→</span>
+    </a>
   </section>
+
 </section>
 
+
 <section class="page" id="shop" data-page="shop">
-  <div class="shop-hero"><span class="section-kicker">THE COLLECTION</span><h1>Essentials worth<br><em>bringing home.</em></h1><p>Explore Luxurie’s current collection of useful, everyday products.</p></div>
-  <div class="shop-toolbar"><span>Featured collection</span><span id="product-count-label"></span></div>
+  <div class="shop-hero">
+    <span class="section-kicker">THE COLLECTION</span>
+    <h1>Essentials worth<br><em>bringing home.</em></h1>
+    <p>Explore Luxurie’s current collection of useful, everyday products.</p>
+  </div>
+
+  <div class="shop-toolbar">
+    <span>Featured collection</span>
+    <span id="product-count-label"></span>
+  </div>
+
   <div class="product-grid" id="shop-product-grid"></div>
 </section>
 
+
 <section class="page" id="about" data-page="about">
   <div class="narrow-page editorial-page">
-    <span class="section-kicker">OUR STORY</span><h1>Less clutter.<br><em>More of what matters.</em></h1>
-    <p>Luxurie is built around a simple idea: shopping should feel clear, considered, and uncomplicated.</p>
-    <p>We focus on practical products that fit naturally into everyday life. Instead of overwhelming you with endless choices, Luxurie keeps the experience focused on useful essentials and straightforward ordering.</p>
-    <div class="about-points"><div><strong>01</strong><span>Thoughtful selection</span></div><div><strong>02</strong><span>Clear, upfront pricing</span></div><div><strong>03</strong><span>Simple customer experience</span></div></div>
-  </div>
-</section>
+    <span class="section-kicker">OUR STORY</span>
 
-<section class="page" id="contact" data-page="contact">
-  <div class="narrow-page contact-page">
-    <span class="section-kicker">CONTACT</span><h1>We’re here<br><em>to help.</em></h1>
-    <p>For questions about products or an order, contact Luxurie by email. Include your order number when you have one so we can help faster.</p>
-    <div class="contact-card"><span>Email</span><a href="mailto:shopatluxurie@gmail.com">shopatluxurie@gmail.com</a><small>Customer support: Monday–Saturday, 9 AM–6 PM ET</small></div>
-  </div>
-</section>
+    <h1>Less clutter.<br><em>More of what matters.</em></h1>
 
-<section class="page" id="privacy" data-page="privacy">
-  <div class="narrow-page legal-page">
-    <span class="section-kicker">LEGAL</span><h1>Privacy<br><em>Policy.</em></h1>
-    <p class="legal-updated">Last updated: September 9, 2026</p>
-    <h2>1. Information we collect</h2><p>When you place an order, Luxurie may collect your name, phone number, email address, delivery address, city/state, ZIP code, payment method selection, and the products you order. We collect only information needed to process and support your order.</p>
-    <h2>2. How we use your information</h2><p>We use order information to receive and confirm orders, communicate with customers, provide customer support, and maintain basic business records.</p>
-    <h2>3. Order email service</h2><p>When you submit an order, the order information is transmitted through our form/email service provider so the order can be delivered to Luxurie’s business inbox. Third-party services may process information according to their own privacy policies.</p>
-    <h2>4. Payments</h2><p>This website does not ask you to enter card numbers, CVV codes, PINs, or online banking passwords. If Luxurie later adds an online payment processor, payment information should be handled by that processor under its applicable terms and privacy policy.</p>
-    <h2>5. Cookies and local storage</h2><p>The storefront may use browser storage to remember your shopping cart during your visit. This site does not intentionally use browser storage to collect sensitive financial information.</p>
-    <h2>6. Information sharing</h2><p>Luxurie does not sell customer information. Information may be shared with service providers only when reasonably necessary to operate the store, process orders, communicate with customers, or comply with applicable law.</p>
-    <h2>7. Data retention</h2><p>Order information may be retained for customer service, accounting, fraud prevention, legal, or business-record purposes for as long as reasonably necessary.</p>
-    <h2>8. Your choices</h2><p>You may contact Luxurie to ask about personal information associated with an order or to request correction of inaccurate information, subject to applicable legal requirements.</p>
-    <h2>9. Contact</h2><p>Privacy questions can be sent to <a href="mailto:shopatluxurie@gmail.com">shopatluxurie@gmail.com</a>.</p>
-    <p class="legal-note">This page is a general website privacy-policy template and is not legal advice. Review it with a qualified U.S. attorney or privacy professional before using it as your final legal policy.</p>
-  </div>
-</section>
+    <p>
+      Luxurie is built around a simple idea: shopping should feel clear,
+      considered, and uncomplicated.
+    </p>
 
-<section class="page" id="cart" data-page="cart">
-  <div class="narrow-page cart-page"><span class="section-kicker">YOUR BAG</span><h1>Your <em>cart.</em></h1>
-    <div id="cart-empty" class="empty-state" hidden><p>Your cart is currently empty.</p><a href="#shop" class="btn btn-primary" data-nav="shop">Explore products</a></div>
-    <div id="cart-items" class="cart-items"></div>
-    <div id="cart-summary" class="cart-summary" hidden><div class="summary-row"><span>Subtotal</span><span id="cart-subtotal">$0.00</span></div><div class="summary-note">Final order details are shown before you place your order.</div><a href="#checkout" class="btn btn-primary btn-full" data-nav="checkout">Continue to checkout <span>→</span></a></div>
-  </div>
-</section>
+    <p>
+      We focus on practical products that fit naturally into everyday life.
+      Instead of overwhelming you with endless choices, Luxurie keeps the
+      experience focused on useful essentials and straightforward ordering.
+    </p>
 
-<section class="page" id="checkout" data-page="checkout">
-  <div class="narrow-page checkout-page"><span class="section-kicker">SECURE ORDERING</span><h1>Checkout <em>made simple.</em></h1>
-    <div class="checkout-layout">
-      <form id="checkout-form" novalidate>
-        <div class="form-section"><h2>Contact information</h2><div class="form-grid">
-          <div class="field"><label for="full-name">Full name <span>*</span></label><input type="text" id="full-name" name="fullName" autocomplete="name" required><span class="field-error" data-error-for="full-name"></span></div>
-          <div class="field"><label for="email">Email address <span>*</span></label><input type="email" id="email" name="email" autocomplete="email" required><span class="field-error" data-error-for="email"></span></div>
-          <div class="field"><label for="phone">Phone number <span>*</span></label><input type="tel" id="phone" name="phone" autocomplete="tel" required><span class="field-error" data-error-for="phone"></span></div>
-        </div></div>
-        <div class="form-section"><h2>Delivery details</h2><div class="form-grid">
-          <div class="field field-wide"><label for="address">Street address <span>*</span></label><input type="text" id="address" name="address" autocomplete="street-address" required><span class="field-error" data-error-for="address"></span></div>
-          <div class="field"><label for="city">City <span>*</span></label><input type="text" id="city" name="city" autocomplete="address-level2" required><span class="field-error" data-error-for="city"></span></div>
-          <div class="field"><label for="state">State <span>*</span></label><select id="state" name="state" autocomplete="address-level1" required><option value="">Select state</option><option>Alabama</option><option>Alaska</option><option>Arizona</option><option>Arkansas</option><option>California</option><option>Colorado</option><option>Connecticut</option><option>Delaware</option><option>Florida</option><option>Georgia</option><option>Hawaii</option><option>Idaho</option><option>Illinois</option><option>Indiana</option><option>Iowa</option><option>Kansas</option><option>Kentucky</option><option>Louisiana</option><option>Maine</option><option>Maryland</option><option>Massachusetts</option><option>Michigan</option><option>Minnesota</option><option>Mississippi</option><option>Missouri</option><option>Montana</option><option>Nebraska</option><option>Nevada</option><option>New Hampshire</option><option>New Jersey</option><option>New Mexico</option><option>New York</option><option>North Carolina</option><option>North Dakota</option><option>Ohio</option><option>Oklahoma</option><option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option><option>South Carolina</option><option>South Dakota</option><option>Tennessee</option><option>Texas</option><option>Utah</option><option>Vermont</option><option>Virginia</option><option>Washington</option><option>West Virginia</option><option>Wisconsin</option><option>Wyoming</option></select><span class="field-error" data-error-for="state"></span></div>
-          <div class="field"><label for="zip">ZIP code <span>*</span></label><input type="text" id="zip" name="zip" inputmode="numeric" autocomplete="postal-code" maxlength="10" required><span class="field-error" data-error-for="zip"></span></div>
-        </div></div>
-        <div class="form-section"><h2>Payment</h2><fieldset class="payment-fieldset" aria-label="Payment method">
-<label class="radio-option selected"><input type="radio" name="paymentMethod" value="Paystack" checked><span><strong>Card &amp; other payment methods</strong><small>Secure checkout with our payment partner.</small></span></label>
-<label class="radio-option"><input type="radio" name="paymentMethod" value="Crypto"><span><strong>Cryptocurrency</strong><small>Pay using the cryptocurrency instructions shown below.</small></span></label>
-</fieldset>
-<div id="crypto-payment-box" class="crypto-payment-box" hidden>
-  <div class="crypto-payment-title">Cryptocurrency payment</div>
-  <p>After submitting your order, follow the wallet instructions provided by Luxurie. Enter the transaction reference and upload your payment screenshot below.</p>
-  <div class="crypto-wallet"><span>Network: ERC20 (USDT)</span><strong id="crypto-wallet-address">ADD YOUR CRYPTO WALLET ADDRESS</strong></div>
-  <div class="form-grid payment-proof-grid">
-    <div class="field"><label for="payment-reference">Payment ID / transaction reference <span>*</span></label><input type="text" id="payment-reference" name="paymentReference" autocomplete="off"><span class="field-error" data-error-for="payment-reference"></span></div>
-    <div class="field"><label for="payment-screenshot">Payment screenshot <span>*</span></label><input type="file" id="payment-screenshot" name="paymentScreenshot" accept="image/png,image/jpeg,image/webp"><small class="upload-help">PNG, JPG or WEBP • Max 5 MB</small><span class="field-error" data-error-for="payment-screenshot"></span></div>
-  </div>
-</div>
-<div id="paystack-note" class="payment-note">You will be taken to a secure payment screen after you submit your order details.</div>
-</div>
-        <p class="privacy-check">By continuing, you agree that Luxurie may use the information provided to process and support your order. <a href="#privacy" data-nav="privacy">Privacy Policy</a></p>
-        <p class="submit-error" id="submit-error" role="alert" hidden></p><button type="submit" class="btn btn-primary btn-full btn-large" id="place-order-btn">Continue to Secure Payment <span>→</span></button>
-      </form>
-      <aside class="checkout-card"><h2>Your order</h2><div id="checkout-summary-body"></div><div class="summary-totals"><div class="summary-row"><span>Subtotal</span><span id="checkout-subtotal">$0.00</span></div><div class="summary-row"><span>Delivery</span><span id="checkout-delivery">Calculated after order</span></div><div class="summary-row summary-total"><span>Total</span><span id="checkout-total">$0.00</span></div></div><div class="checkout-assurance">Secure checkout<br>Your payment is processed securely by the selected payment provider.</div></aside>
+    <div class="about-points">
+      <div><strong>01</strong><span>Thoughtful selection</span></div>
+      <div><strong>02</strong><span>Clear, upfront pricing</span></div>
+      <div><strong>03</strong><span>Simple customer experience</span></div>
     </div>
   </div>
 </section>
 
-<section class="page" id="confirmation" data-page="confirmation"><div class="narrow-page confirmation"><div class="confirmation-icon">✓</div><span class="section-kicker">ORDER RECEIVED</span><h1>Thank you.<br><em>Your order is in.</em></h1><p>Your order has been sent to Luxurie for confirmation.</p><p class="order-number">Order number: <strong id="confirmation-order-number"></strong></p><p>Keep this number for your records. We’ll contact you using the information you provided.</p><a href="#shop" class="btn btn-primary" data-nav="shop">Continue shopping <span>→</span></a></div></section>
+
+<section class="page" id="contact" data-page="contact">
+  <div class="narrow-page contact-page">
+    <span class="section-kicker">CONTACT</span>
+
+    <h1>We’re here<br><em>to help.</em></h1>
+
+    <p>
+      For questions about products or an order, contact Luxurie by email.
+      Include your order number when you have one so we can help faster.
+    </p>
+
+    <div class="contact-card">
+      <span>Email</span>
+      <a href="mailto:shopatluxurie@gmail.com">
+        shopatluxurie@gmail.com
+      </a>
+      <small>Customer support: Monday–Saturday, 9 AM–6 PM ET</small>
+    </div>
+  </div>
+</section>
+
+
+<section class="page" id="privacy" data-page="privacy">
+  <div class="narrow-page legal-page">
+
+    <span class="section-kicker">LEGAL</span>
+
+    <h1>Privacy<br><em>Policy.</em></h1>
+
+    <p class="legal-updated">Last updated: September 9, 2026</p>
+
+    <h2>1. Information we collect</h2>
+    <p>
+      When you place an order, Luxurie may collect your name, phone number,
+      email address, delivery address, city/state, ZIP code, payment method
+      selection, and the products you order. We collect only information
+      needed to process and support your order.
+    </p>
+
+    <h2>2. How we use your information</h2>
+    <p>
+      We use order information to receive and confirm orders, communicate with
+      customers, provide customer support, and maintain basic business records.
+    </p>
+
+    <h2>3. Order email service</h2>
+    <p>
+      When you submit an order, the order information is transmitted through
+      our form/email service provider so the order can be delivered to
+      Luxurie’s business inbox. Third-party services may process information
+      according to their own privacy policies.
+    </p>
+
+    <h2>4. Payments</h2>
+    <p>
+      Card and other online payments are processed through Flutterwave.
+      Luxurie does not ask customers to enter card numbers, CVV codes,
+      PINs, or online banking passwords directly into this website.
+    </p>
+
+    <h2>5. Cookies and local storage</h2>
+    <p>
+      The storefront may use browser storage to remember your shopping cart
+      during your visit. This site does not intentionally use browser storage
+      to collect sensitive financial information.
+    </p>
+
+    <h2>6. Information sharing</h2>
+    <p>
+      Luxurie does not sell customer information. Information may be shared
+      with service providers only when reasonably necessary to operate the
+      store, process orders, communicate with customers, or comply with
+      applicable law.
+    </p>
+
+    <h2>7. Data retention</h2>
+    <p>
+      Order information may be retained for customer service, accounting,
+      fraud prevention, legal, or business-record purposes for as long as
+      reasonably necessary.
+    </p>
+
+    <h2>8. Your choices</h2>
+    <p>
+      You may contact Luxurie to ask about personal information associated
+      with an order or to request correction of inaccurate information,
+      subject to applicable legal requirements.
+    </p>
+
+    <h2>9. Contact</h2>
+    <p>
+      Privacy questions can be sent to
+      <a href="mailto:shopatluxurie@gmail.com">shopatluxurie@gmail.com</a>.
+    </p>
+
+    <p class="legal-note">
+      This page is a general website privacy-policy template and is not legal
+      advice. Review it with a qualified U.S. attorney or privacy professional
+      before using it as your final legal policy.
+    </p>
+
+  </div>
+</section>
+
+
+<section class="page" id="cart" data-page="cart">
+  <div class="narrow-page cart-page">
+
+    <span class="section-kicker">YOUR BAG</span>
+    <h1>Your <em>cart.</em></h1>
+
+    <div id="cart-empty" class="empty-state" hidden>
+      <p>Your cart is currently empty.</p>
+      <a href="#shop" class="btn btn-primary" data-nav="shop">
+        Explore products
+      </a>
+    </div>
+
+    <div id="cart-items" class="cart-items"></div>
+
+    <div id="cart-summary" class="cart-summary" hidden>
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span id="cart-subtotal">$0.00</span>
+      </div>
+
+      <div class="summary-note">
+        Final order details are shown before you place your order.
+      </div>
+
+      <a href="#checkout" class="btn btn-primary btn-full" data-nav="checkout">
+        Continue to checkout <span>→</span>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="page" id="checkout" data-page="checkout">
+
+  <div class="narrow-page checkout-page">
+
+    <span class="section-kicker">SECURE ORDERING</span>
+
+    <h1>Checkout <em>made simple.</em></h1>
+
+    <div class="checkout-layout">
+
+      <form id="checkout-form" novalidate>
+
+        <div class="form-section">
+          <h2>Contact information</h2>
+
+          <div class="form-grid">
+
+            <div class="field">
+              <label for="full-name">Full name <span>*</span></label>
+              <input type="text" id="full-name" name="fullName" autocomplete="name" required>
+              <span class="field-error" data-error-for="full-name"></span>
+            </div>
+
+            <div class="field">
+              <label for="email">Email address <span>*</span></label>
+              <input type="email" id="email" name="email" autocomplete="email" required>
+              <span class="field-error" data-error-for="email"></span>
+            </div>
+
+            <div class="field">
+              <label for="phone">Phone number <span>*</span></label>
+              <input type="tel" id="phone" name="phone" autocomplete="tel" required>
+              <span class="field-error" data-error-for="phone"></span>
+            </div>
+
+          </div>
+        </div>
+
+
+        <div class="form-section">
+
+          <h2>Delivery details</h2>
+
+          <div class="form-grid">
+
+            <div class="field field-wide">
+              <label for="address">Street address <span>*</span></label>
+              <input type="text" id="address" name="address" autocomplete="street-address" required>
+              <span class="field-error" data-error-for="address"></span>
+            </div>
+
+            <div class="field">
+              <label for="city">City <span>*</span></label>
+              <input type="text" id="city" name="city" autocomplete="address-level2" required>
+              <span class="field-error" data-error-for="city"></span>
+            </div>
+
+            <div class="field">
+              <label for="state">State <span>*</span></label>
+
+              <select id="state" name="state" autocomplete="address-level1" required>
+                <option value="">Select state</option>
+                <option>Alabama</option>
+                <option>Alaska</option>
+                <option>Arizona</option>
+                <option>Arkansas</option>
+                <option>California</option>
+                <option>Colorado</option>
+                <option>Connecticut</option>
+                <option>Delaware</option>
+                <option>Florida</option>
+                <option>Georgia</option>
+                <option>Hawaii</option>
+                <option>Idaho</option>
+                <option>Illinois</option>
+                <option>Indiana</option>
+                <option>Iowa</option>
+                <option>Kansas</option>
+                <option>Kentucky</option>
+                <option>Louisiana</option>
+                <option>Maine</option>
+                <option>Maryland</option>
+                <option>Massachusetts</option>
+                <option>Michigan</option>
+                <option>Minnesota</option>
+                <option>Mississippi</option>
+                <option>Missouri</option>
+                <option>Montana</option>
+                <option>Nebraska</option>
+                <option>Nevada</option>
+                <option>New Hampshire</option>
+                <option>New Jersey</option>
+                <option>New Mexico</option>
+                <option>New York</option>
+                <option>North Carolina</option>
+                <option>North Dakota</option>
+                <option>Ohio</option>
+                <option>Oklahoma</option>
+                <option>Oregon</option>
+                <option>Pennsylvania</option>
+                <option>Rhode Island</option>
+                <option>South Carolina</option>
+                <option>South Dakota</option>
+                <option>Tennessee</option>
+                <option>Texas</option>
+                <option>Utah</option>
+                <option>Vermont</option>
+                <option>Virginia</option>
+                <option>Washington</option>
+                <option>West Virginia</option>
+                <option>Wisconsin</option>
+                <option>Wyoming</option>
+              </select>
+
+              <span class="field-error" data-error-for="state"></span>
+            </div>
+
+            <div class="field">
+              <label for="zip">ZIP code <span>*</span></label>
+              <input type="text" id="zip" name="zip" inputmode="numeric" autocomplete="postal-code" maxlength="10" required>
+              <span class="field-error" data-error-for="zip"></span>
+            </div>
+
+          </div>
+        </div>
+
+
+        <div class="form-section">
+
+          <h2>Payment</h2>
+
+          <fieldset class="payment-fieldset" aria-label="Payment method">
+
+            <label class="radio-option selected">
+              <input type="radio" name="paymentMethod" value="Flutterwave" checked>
+
+              <span>
+                <strong>Card &amp; other payment methods</strong>
+                <small>Secure checkout with Flutterwave.</small>
+              </span>
+            </label>
+
+            <label class="radio-option">
+              <input type="radio" name="paymentMethod" value="Crypto">
+
+              <span>
+                <strong>Cryptocurrency</strong>
+                <small>Pay using the cryptocurrency instructions shown below.</small>
+              </span>
+            </label>
+
+          </fieldset>
+
+
+          <div id="crypto-payment-box" class="crypto-payment-box" hidden>
+
+            <div class="crypto-payment-title">
+              Cryptocurrency payment
+            </div>
+
+            <p>
+              After submitting your order, follow the wallet instructions
+              provided by Luxurie. Enter the transaction reference and upload
+              your payment screenshot below.
+            </p>
+
+            <div class="crypto-wallet">
+              <span>Network: ERC20 (USDT)</span>
+              <strong id="crypto-wallet-address">
+                ADD YOUR CRYPTO WALLET ADDRESS
+              </strong>
+            </div>
+
+            <div class="form-grid payment-proof-grid">
+
+              <div class="field">
+                <label for="payment-reference">
+                  Payment ID / transaction reference <span>*</span>
+                </label>
+
+                <input type="text" id="payment-reference" name="paymentReference" autocomplete="off">
+
+                <span class="field-error" data-error-for="payment-reference"></span>
+              </div>
+
+              <div class="field">
+
+                <label for="payment-screenshot">
+                  Payment screenshot <span>*</span>
+                </label>
+
+                <input
+                  type="file"
+                  id="payment-screenshot"
+                  name="paymentScreenshot"
+                  accept="image/png,image/jpeg,image/webp"
+                >
+
+                <small class="upload-help">
+                  PNG, JPG or WEBP • Max 5 MB
+                </small>
+
+                <span class="field-error" data-error-for="payment-screenshot"></span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div id="flutterwave-note" class="payment-note">
+            You will be taken to a secure Flutterwave payment screen after you submit your order details.
+          </div>
+
+        </div>
+
+
+        <p class="privacy-check">
+          By continuing, you agree that Luxurie may use the information provided
+          to process and support your order.
+          <a href="#privacy" data-nav="privacy">Privacy Policy</a>
+        </p>
+
+        <p class="submit-error" id="submit-error" role="alert" hidden></p>
+
+        <button
+          type="submit"
+          class="btn btn-primary btn-full btn-large"
+          id="place-order-btn"
+        >
+          Continue to Secure Payment <span>→</span>
+        </button>
+
+      </form>
+
+
+      <aside class="checkout-card">
+
+        <h2>Your order</h2>
+
+        <div id="checkout-summary-body"></div>
+
+        <div class="summary-totals">
+
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="checkout-subtotal">$0.00</span>
+          </div>
+
+          <div class="summary-row">
+            <span>Delivery</span>
+            <span id="checkout-delivery">Calculated after order</span>
+          </div>
+
+          <div class="summary-row summary-total">
+            <span>Total</span>
+            <span id="checkout-total">$0.00</span>
+          </div>
+
+        </div>
+
+        <div class="checkout-assurance">
+          Secure checkout<br>
+          Your payment is processed securely by Flutterwave.
+        </div>
+
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+
+<section class="page" id="confirmation" data-page="confirmation">
+
+  <div class="narrow-page confirmation">
+
+    <div class="confirmation-icon">✓</div>
+
+    <span class="section-kicker">ORDER RECEIVED</span>
+
+    <h1>
+      Thank you.<br>
+      <em>Your order is in.</em>
+    </h1>
+
+    <p>
+      Your payment has been verified and your order has been sent to Luxurie for confirmation.
+    </p>
+
+    <p class="order-number">
+      Order number:
+      <strong id="confirmation-order-number"></strong>
+    </p>
+
+    <p>
+      Keep this number for your records. We’ll contact you using the information you provided.
+    </p>
+
+    <a href="#shop" class="btn btn-primary" data-nav="shop">
+      Continue shopping <span>→</span>
+    </a>
+
+  </div>
+
+</section>
+
 </main>
 
-<footer class="site-footer"><div class="footer-inner"><div class="footer-top"><div><a href="#home" class="footer-logo" data-nav="home">Luxurie<span>.</span></a><p>Everyday essentials, thoughtfully selected.</p></div><nav class="footer-links"><a href="#about" data-nav="about">Our Story</a><a href="#contact" data-nav="contact">Contact</a><a href="#privacy" data-nav="privacy">Privacy</a></nav></div><div class="footer-bottom"><span>© 2026 Luxurie. All rights reserved.</span><span>U.S. storefront</span></div></div></footer>
-<script src="https://js.paystack.co/v2/inline.js"></script>
+
+<footer class="site-footer">
+
+  <div class="footer-inner">
+
+    <div class="footer-top">
+
+      <div>
+        <a href="#home" class="footer-logo" data-nav="home">
+          Luxurie<span>.</span>
+        </a>
+
+        <p>Everyday essentials, thoughtfully selected.</p>
+      </div>
+
+      <nav class="footer-links">
+        <a href="#about" data-nav="about">Our Story</a>
+        <a href="#contact" data-nav="contact">Contact</a>
+        <a href="#privacy" data-nav="privacy">Privacy</a>
+      </nav>
+
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 Luxurie. All rights reserved.</span>
+      <span>U.S. storefront</span>
+    </div>
+
+  </div>
+
+</footer>
+
+
+<!-- Flutterwave -->
+<script src="https://checkout.flutterwave.com/v3.js"></script>
+
+<!-- Luxurie -->
 <script src="script.js"></script>
+
 </body>
 </html>
