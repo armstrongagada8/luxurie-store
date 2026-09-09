@@ -1,4 +1,4 @@
-const ORDER_EMAIL = "shopatkuxurie@gmail.com";
+const ORDER_EMAIL = "shopatluxurie@gmail.com";
 const DELIVERY_FEE = 0;
 const PAYSTACK_PUBLIC_KEY = "pk_test_REPLACE_WITH_YOUR_PUBLIC_KEY";
 const CRYPTO_WALLET_ADDRESS = "ADD YOUR CRYPTO WALLET ADDRESS";
