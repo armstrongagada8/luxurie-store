@@ -1,61 +1,49 @@
 const ORDER_EMAIL = "shopatluxurie@gmail.com";
 const DELIVERY_FEE = 0;
 
-/*
- * Replace this with your Flutterwave PUBLIC key.
- *
- * Example:
- * const FLUTTERWAVE_PUBLIC_KEY = "FLWPUBK_TEST-xxxxxxxxxxxxxxxx";
- *
- * Never put your Flutterwave SECRET key here.
- */
-const FLUTTERWAVE_PUBLIC_KEY = "FLWPUBK_TEST-028100d458cdcbd6b0fe1b1d28b2f897-X";
+// Flutterwave PUBLIC key only.
+// Do NOT put your secret key here.
+const FLUTTERWAVE_PUBLIC_KEY = "YOUR_FLUTTERWAVE_PUBLIC_KEY";
 
 const CRYPTO_WALLET_ADDRESS =
   "0xB7eee0CE50092919E7Aec0Cfb3ABD279052b7A96";
 
-const PRODUCTS = [
+const products = [
   {
-    id: "earbuds",
+    id: 1,
     name: "Wireless Earbuds",
-    category: "Audio essential",
     price: 39,
-    image: "images/earbuds.svg"
+    image: "images/wireless-earbuds.svg"
   },
   {
-    id: "watch",
+    id: 2,
     name: "Smart Watch",
-    category: "Everyday tech",
     price: 79,
-    image: "images/watch.svg"
+    image: "images/smart-watch.svg"
   },
   {
-    id: "bottle",
+    id: 3,
     name: "Premium Water Bottle",
-    category: "Daily essential",
     price: 24,
-    image: "images/bottle.svg"
+    image: "images/premium-water-bottle.svg"
   },
   {
-    id: "backpack",
+    id: 4,
     name: "Minimalist Backpack",
-    category: "Everyday carry",
     price: 59,
-    image: "images/backpack.svg"
+    image: "images/minimalist-backpack.svg"
   },
   {
-    id: "sunglasses",
+    id: 5,
     name: "Classic Sunglasses",
-    category: "Modern accessory",
     price: 34,
-    image: "images/sunglasses.svg"
+    image: "images/classic-sunglasses.svg"
   },
   {
-    id: "speaker",
+    id: 6,
     name: "Portable Speaker",
-    category: "Audio essential",
     price: 49,
-    image: "images/speaker.svg"
+    image: "images/portable-speaker.svg"
   }
 ];
 
@@ -65,614 +53,476 @@ const state = {
   paymentPending: false
 };
 
-
 function formatUSD(amount) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD"
-  }).format(amount);
+  }).format(Number(amount) || 0);
 }
-
 
 function findProduct(id) {
-  return PRODUCTS.find(p => p.id === id);
+  return products.find(product => Number(product.id) === Number(id));
 }
 
-
-function cartCount() {
-  return state.cart.reduce((s, i) => s + i.qty, 0);
+function getCartCount() {
+  return state.cart.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
 }
 
+function getCartSubtotal() {
+  return state.cart.reduce((total, item) => {
+    const product = findProduct(item.id);
 
-function cartSubtotal() {
-  return state.cart.reduce((s, i) => {
-    const p = findProduct(i.id);
-    return s + (p ? p.price * i.qty : 0);
+    if (!product) return total;
+
+    return total + product.price * item.quantity;
   }, 0);
 }
 
-
-function productCardHTML(p) {
-  return `
-    <article class="product-card">
-      <div class="product-image">
-        <img src="${p.image}" alt="${p.name}" loading="lazy">
-      </div>
-
-      <div class="product-card-body">
-        <div class="product-name">${p.name}</div>
-        <div class="product-meta">${p.category}</div>
-
-        <div class="product-card-footer">
-          <span class="product-price">${formatUSD(p.price)}</span>
-
-          <button
-            class="add-to-cart-btn"
-            data-add="${p.id}"
-          >
-            Add to bag
-          </button>
-        </div>
-      </div>
-    </article>
-  `;
+function getCartTotal() {
+  return getCartSubtotal() + DELIVERY_FEE;
 }
 
+function updateCartCount() {
+  const elements = document.querySelectorAll(
+    "#cart-count, .cart-count"
+  );
 
-function renderProductGrids() {
-  document.getElementById("shop-product-grid").innerHTML =
-    PRODUCTS.map(productCardHTML).join("");
-
-  document.getElementById("home-product-grid").innerHTML =
-    PRODUCTS.slice(0, 3).map(productCardHTML).join("");
-
-  document.getElementById("product-count-label").textContent =
-    `${PRODUCTS.length} products`;
+  elements.forEach(element => {
+    element.textContent = getCartCount();
+  });
 }
 
+function addToCart(productId) {
+  const product = findProduct(productId);
 
-function renderCart() {
-  document.getElementById("cart-count").textContent = cartCount();
+  if (!product) return;
 
-  const items = document.getElementById("cart-items");
-  const empty = document.getElementById("cart-empty");
-  const summary = document.getElementById("cart-summary");
+  const existing = state.cart.find(
+    item => Number(item.id) === Number(productId)
+  );
 
-  if (!state.cart.length) {
-    items.innerHTML = "";
-    empty.hidden = false;
-    summary.hidden = true;
-    return;
-  }
-
-  empty.hidden = true;
-  summary.hidden = false;
-
-  items.innerHTML = state.cart.map(i => {
-    const p = findProduct(i.id);
-
-    return `
-      <div class="cart-item">
-
-        <img src="${p.image}" alt="${p.name}">
-
-        <div>
-          <div class="cart-item-name">${p.name}</div>
-          <div class="cart-item-price">${formatUSD(p.price)} each</div>
-        </div>
-
-        <div class="qty-control">
-          <button
-            data-qty-decrease="${p.id}"
-            aria-label="Decrease quantity"
-          >−</button>
-
-          <span>${i.qty}</span>
-
-          <button
-            data-qty-increase="${p.id}"
-            aria-label="Increase quantity"
-          >+</button>
-        </div>
-
-        <button
-          class="cart-item-remove"
-          data-remove="${p.id}"
-        >
-          Remove
-        </button>
-
-      </div>
-    `;
-  }).join("");
-
-  document.getElementById("cart-subtotal").textContent =
-    formatUSD(cartSubtotal());
-}
-
-
-function renderCheckoutSummary() {
-  const body = document.getElementById("checkout-summary-body");
-  const form = document.getElementById("checkout-form");
-
-  if (!state.cart.length) {
-    form.hidden = true;
-    body.innerHTML = "";
-    return;
-  }
-
-  form.hidden = false;
-
-  body.innerHTML = state.cart.map(i => {
-    const p = findProduct(i.id);
-
-    return `
-      <div class="checkout-line">
-
-        <img src="${p.image}" alt="${p.name}">
-
-        <div class="checkout-line-info">
-          <strong>${p.name}</strong>
-          <span>${i.qty} × ${formatUSD(p.price)}</span>
-        </div>
-
-        <strong style="margin-left:auto;font-size:11px">
-          ${formatUSD(p.price * i.qty)}
-        </strong>
-
-      </div>
-    `;
-  }).join("");
-
-  const sub = cartSubtotal();
-
-  document.getElementById("checkout-subtotal").textContent =
-    formatUSD(sub);
-
-  document.getElementById("checkout-delivery").textContent =
-    DELIVERY_FEE ? formatUSD(DELIVERY_FEE) : "Free";
-
-  document.getElementById("checkout-total").textContent =
-    formatUSD(sub + DELIVERY_FEE);
-}
-
-
-function addToCart(id) {
-  const item = state.cart.find(i => i.id === id);
-
-  if (item) {
-    item.qty++;
+  if (existing) {
+    existing.quantity += 1;
   } else {
     state.cart.push({
-      id,
-      qty: 1
+      id: product.id,
+      quantity: 1
     });
   }
 
   renderCart();
+  updateCartCount();
 }
 
-
-function increaseQty(id) {
-  const i = state.cart.find(x => x.id === id);
-
-  if (i) i.qty++;
+function removeFromCart(productId) {
+  state.cart = state.cart.filter(
+    item => Number(item.id) !== Number(productId)
+  );
 
   renderCart();
+  updateCartCount();
 }
 
+function changeQuantity(productId, change) {
+  const item = state.cart.find(
+    cartItem => Number(cartItem.id) === Number(productId)
+  );
 
-function decreaseQty(id) {
-  const i = state.cart.find(x => x.id === id);
+  if (!item) return;
 
-  if (!i) return;
+  item.quantity += change;
 
-  i.qty--;
-
-  if (i.qty < 1) {
-    state.cart = state.cart.filter(x => x.id !== id);
+  if (item.quantity <= 0) {
+    removeFromCart(productId);
+    return;
   }
 
   renderCart();
+  updateCartCount();
 }
 
+function renderCart() {
+  const cartContainer = document.querySelector("#cart-items");
+  const subtotalElement = document.querySelector("#cart-subtotal");
+  const deliveryElement = document.querySelector("#cart-delivery");
+  const totalElement = document.querySelector("#cart-total");
 
-function removeFromCart(id) {
-  state.cart = state.cart.filter(i => i.id !== id);
-  renderCart();
+  if (!cartContainer) return;
+
+  if (state.cart.length === 0) {
+    cartContainer.innerHTML = `
+      <div class="empty-cart">
+        <p>Your cart is empty.</p>
+      </div>
+    `;
+
+    if (subtotalElement) {
+      subtotalElement.textContent = formatUSD(0);
+    }
+
+    if (deliveryElement) {
+      deliveryElement.textContent = formatUSD(DELIVERY_FEE);
+    }
+
+    if (totalElement) {
+      totalElement.textContent = formatUSD(DELIVERY_FEE);
+    }
+
+    updateCartCount();
+    return;
+  }
+
+  cartContainer.innerHTML = state.cart
+    .map(item => {
+      const product = findProduct(item.id);
+
+      if (!product) return "";
+
+      const itemTotal = product.price * item.quantity;
+
+      return `
+        <div class="cart-item">
+          <img
+            src="${product.image}"
+            alt="${product.name}"
+          >
+
+          <div class="cart-item-info">
+            <h3>${product.name}</h3>
+            <p>${formatUSD(product.price)}</p>
+
+            <div class="quantity-controls">
+              <button
+                type="button"
+                onclick="changeQuantity(${product.id}, -1)"
+              >
+                −
+              </button>
+
+              <span>${item.quantity}</span>
+
+              <button
+                type="button"
+                onclick="changeQuantity(${product.id}, 1)"
+              >
+                +
+              </button>
+            </div>
+          </div>
+
+          <div class="cart-item-right">
+            <strong>${formatUSD(itemTotal)}</strong>
+
+            <button
+              type="button"
+              class="remove-item"
+              onclick="removeFromCart(${product.id})"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+      `;
+    })
+    .join("");
+
+  if (subtotalElement) {
+    subtotalElement.textContent =
+      formatUSD(getCartSubtotal());
+  }
+
+  if (deliveryElement) {
+    deliveryElement.textContent =
+      formatUSD(DELIVERY_FEE);
+  }
+
+  if (totalElement) {
+    totalElement.textContent =
+      formatUSD(getCartTotal());
+  }
+
+  updateCartCount();
 }
 
+function showPage(pageId) {
+  const pages = document.querySelectorAll(".page");
 
-function navigateTo(page) {
-  document.querySelectorAll(".page").forEach(x => {
-    x.classList.toggle("active", x.dataset.page === page);
+  pages.forEach(page => {
+    page.classList.remove("active");
   });
 
-  document.querySelectorAll(".main-nav a").forEach(x => {
-    x.classList.toggle("active", x.dataset.nav === page);
-  });
+  const page = document.getElementById(pageId);
 
-  const nav = document.getElementById("main-nav");
-
-  nav.classList.remove("open");
-
-  document
-    .getElementById("menu-toggle")
-    .setAttribute("aria-expanded", "false");
+  if (page) {
+    page.classList.add("active");
+  }
 
   window.scrollTo({
     top: 0,
-    behavior: "auto"
+    behavior: "smooth"
   });
 
-  if (page === "cart") renderCart();
-
-  if (page === "checkout") renderCheckoutSummary();
-
-  if (page === "privacy") {
-    history.replaceState(null, "", "#privacy");
+  if (pageId === "cart") {
+    renderCart();
   }
 }
 
+function goToShop() {
+  showPage("shop");
+}
+
+function goToCart() {
+  showPage("cart");
+}
+
+function goToCheckout() {
+  if (state.cart.length === 0) {
+    alert("Your cart is empty.");
+    return;
+  }
+
+  showPage("checkout");
+}
 
 function generateOrderNumber() {
-  const d = new Date()
-    .toISOString()
-    .slice(0, 10)
-    .replaceAll("-", "");
-
-  return `LX-${d}-${Math.floor(1000 + Math.random() * 9000)}`;
-}
-
-
-function clearFieldErrors(form) {
-  form.querySelectorAll(".field-error").forEach(e => {
-    e.textContent = "";
-  });
-
-  form.querySelectorAll(".invalid").forEach(e => {
-    e.classList.remove("invalid");
-  });
-}
-
-
-function setFieldError(id, msg) {
-  const input = document.getElementById(id);
-  const e = document.querySelector(
-    `[data-error-for="${id}"]`
+  const timestamp = Date.now();
+  const random = Math.floor(
+    1000 + Math.random() * 9000
   );
 
-  if (input) input.classList.add("invalid");
-
-  if (e) e.textContent = msg;
+  return `LUX-${timestamp}-${random}`;
 }
 
+function getSelectedPaymentMethod() {
+  const selected = document.querySelector(
+    'input[name="paymentMethod"]:checked'
+  );
 
-function validate(form) {
-  clearFieldErrors(form);
+  return selected ? selected.value : "Flutterwave";
+}
 
-  let ok = true;
+function updatePaymentUI() {
+  const method = getSelectedPaymentMethod();
 
-  const vals = {
-    "full-name": document.getElementById("full-name").value.trim(),
-    email: document.getElementById("email").value.trim(),
-    phone: document.getElementById("phone").value.trim(),
-    address: document.getElementById("address").value.trim(),
-    city: document.getElementById("city").value.trim(),
-    state: document.getElementById("state").value,
-    zip: document.getElementById("zip").value.trim()
+  const cryptoBox = document.querySelector(
+    "#crypto-payment-box"
+  );
+
+  const flutterwaveNote = document.querySelector(
+    "#flutterwave-note"
+  );
+
+  if (cryptoBox) {
+    cryptoBox.style.display =
+      method === "Crypto" ? "block" : "none";
+  }
+
+  if (flutterwaveNote) {
+    flutterwaveNote.style.display =
+      method === "Flutterwave" ? "block" : "none";
+  }
+
+  document
+    .querySelectorAll(".radio-option")
+    .forEach(option => {
+      const input = option.querySelector(
+        'input[name="paymentMethod"]'
+      );
+
+      option.classList.toggle(
+        "selected",
+        input && input.checked
+      );
+    });
+}
+
+function validateCheckoutForm() {
+  const form = document.querySelector("#checkout-form");
+
+  if (!form) {
+    throw new Error("Checkout form could not be found.");
+  }
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return false;
+  }
+
+  return true;
+}
+
+function getFormValue(id) {
+  const element = document.getElementById(id);
+
+  return element ? element.value.trim() : "";
+}
+
+function buildOrder() {
+  const fullName = getFormValue("full-name");
+  const email = getFormValue("email");
+  const phone = getFormValue("phone");
+  const address = getFormValue("address");
+  const city = getFormValue("city");
+  const stateValue = getFormValue("state");
+  const zip = getFormValue("zip");
+  const country = getFormValue("country");
+
+  return {
+    orderNumber: generateOrderNumber(),
+    fullName,
+    email,
+    phone,
+    address,
+    city,
+    state: stateValue,
+    zip,
+    country,
+    items: state.cart.map(item => {
+      const product = findProduct(item.id);
+
+      return {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: item.quantity,
+        total: product.price * item.quantity
+      };
+    }),
+    subtotal: getCartSubtotal(),
+    deliveryFee: DELIVERY_FEE,
+    total: getCartTotal(),
+    paymentMethod: getSelectedPaymentMethod(),
+    paymentStatus: "Pending",
+    paymentReference: ""
   };
-
-  for (const [id, msg] of [
-    ["full-name", "Enter your full name."],
-    ["email", "Enter your email address."],
-    ["phone", "Enter your phone number."],
-    ["address", "Enter your street address."],
-    ["city", "Enter your city."],
-    ["state", "Select your state."],
-    ["zip", "Enter your ZIP code."]
-  ]) {
-    if (!vals[id]) {
-      setFieldError(id, msg);
-      ok = false;
-    }
-  }
-
-  if (
-    vals.email &&
-    !/^\S+@\S+\.\S+$/.test(vals.email)
-  ) {
-    setFieldError(
-      "email",
-      "Enter a valid email address."
-    );
-
-    ok = false;
-  }
-
-  if (
-    vals.zip &&
-    !/^\d{5}(-\d{4})?$/.test(vals.zip)
-  ) {
-    setFieldError(
-      "zip",
-      "Enter a valid U.S. ZIP code."
-    );
-
-    ok = false;
-  }
-
-  const method =
-    document.querySelector(
-      'input[name="paymentMethod"]:checked'
-    )?.value;
-
-  if (method === "Crypto") {
-    const ref =
-      document
-        .getElementById("payment-reference")
-        .value
-        .trim();
-
-    const file =
-      document
-        .getElementById("payment-screenshot")
-        .files[0];
-
-    if (!ref) {
-      setFieldError(
-        "payment-reference",
-        "Enter your crypto transaction reference."
-      );
-
-      ok = false;
-    }
-
-    if (!file) {
-      setFieldError(
-        "payment-screenshot",
-        "Upload your payment screenshot."
-      );
-
-      ok = false;
-    } else if (file.size > 5 * 1024 * 1024) {
-      setFieldError(
-        "payment-screenshot",
-        "Screenshot must be 5 MB or smaller."
-      );
-
-      ok = false;
-    }
-  }
-
-  return ok;
 }
-
 
 function buildOrderText(order) {
-  const lines = [
-    "NEW LUXURIE ORDER",
-    "",
-    `Order Number: ${order.orderNumber}`,
-    "",
-    "CUSTOMER",
-    `Name: ${order.fullName}`,
-    `Phone: ${order.phone}`,
-    `Email: ${order.email}`,
-    "",
-    "DELIVERY",
-    `Address: ${order.address}`,
-    `City: ${order.city}`,
-    `State: ${order.state}`,
-    `ZIP: ${order.zip}`,
-    "",
-    "PAYMENT",
-    `Method: ${order.paymentMethod}`,
-    `Payment Reference: ${order.paymentReference || "Not applicable"}`,
-    `Payment Status: ${order.paymentStatus}`,
-    "",
-    "ORDER"
-  ];
+  const itemLines = order.items
+    .map(item => {
+      return `${item.name} x ${item.quantity} - ${formatUSD(
+        item.total
+      )}`;
+    })
+    .join("\n");
 
-  order.items.forEach(i => {
-    lines.push(
-      `${i.name} × ${i.qty} — ${formatUSD(i.lineSubtotal)}`
-    );
-  });
+  return `
+LUXURIE ORDER
 
-  lines.push(
-    "",
-    `Subtotal: ${formatUSD(order.subtotal)}`,
-    `Delivery: ${order.deliveryFee ? formatUSD(order.deliveryFee) : "Free"}`,
-    `TOTAL: ${formatUSD(order.total)}`,
-    "",
-    `Placed: ${order.placedAt}`
-  );
+Order Number: ${order.orderNumber}
 
-  return lines.join("\n");
+CUSTOMER
+Name: ${order.fullName}
+Email: ${order.email}
+Phone: ${order.phone}
+
+DELIVERY ADDRESS
+${order.address}
+${order.city}, ${order.state} ${order.zip}
+${order.country}
+
+ORDER ITEMS
+${itemLines}
+
+Subtotal: ${formatUSD(order.subtotal)}
+Delivery: ${formatUSD(order.deliveryFee)}
+Total: ${formatUSD(order.total)}
+
+PAYMENT
+Method: ${order.paymentMethod}
+Status: ${order.paymentStatus}
+Reference: ${order.paymentReference || "N/A"}
+  `.trim();
 }
 
+async function submitOrder(order) {
+  const subject =
+    `Luxurie Order ${order.orderNumber}`;
+
+  const body = buildOrderText(order);
+
+  const response = await fetch(
+    "https://formsubmit.co/ajax/" + ORDER_EMAIL,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify({
+        _subject: subject,
+        _template: "box",
+        message: body
+      })
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(
+      "Your order could not be submitted. Please try again."
+    );
+  }
+
+  return response;
+}
 
 /*
- * Server-side Flutterwave verification.
- *
- * The secret key stays on Vercel.
- */
+|--------------------------------------------------------------------------
+| FLUTTERWAVE PAYMENT VERIFICATION
+|--------------------------------------------------------------------------
+*/
+
 async function verifyFlutterwave(
   transactionId,
   reference,
   expectedAmount
 ) {
-  const res = await fetch("/api/verify-payment", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      transaction_id: transactionId,
-      reference,
-      amount: Number(expectedAmount),
-      currency: "USD"
-    })
-  });
+  const response = await fetch(
+    "/api/verify-payment",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        transaction_id: transactionId,
+        reference: reference,
+        amount: Number(expectedAmount),
+        currency: "USD"
+      })
+    }
+  );
 
   let data = {};
 
   try {
-    data = await res.json();
+    data = await response.json();
   } catch {
     data = {};
   }
 
-  if (!res.ok || !data.verified) {
+  if (!response.ok || !data.verified) {
     throw new Error(
-      data.message || "Payment could not be verified."
+      data.message ||
+        "Flutterwave payment could not be verified."
     );
   }
 
   return data;
 }
-
-
-async function submitOrder(order, file) {
-  const endpoint =
-    `https://formsubmit.co/ajax/${ORDER_EMAIL}`;
-
-  const fd = new FormData();
-
-  fd.append(
-    "_subject",
-    `New Luxurie Order ${order.orderNumber}`
-  );
-
-  fd.append("_template", "table");
-  fd.append("_captcha", "false");
-  fd.append("_replyto", order.email);
-
-  fd.append("order_number", order.orderNumber);
-  fd.append("customer_name", order.fullName);
-  fd.append("phone", order.phone);
-  fd.append("email", order.email);
-  fd.append("address", order.address);
-  fd.append("city", order.city);
-  fd.append("state", order.state);
-  fd.append("zip", order.zip);
-
-  fd.append("payment_method", order.paymentMethod);
-  fd.append(
-    "payment_reference",
-    order.paymentReference || "Not applicable"
-  );
-
-  fd.append("payment_status", order.paymentStatus);
-
-  fd.append(
-    "order_details",
-    buildOrderText(order)
-  );
-
-  fd.append(
-    "subtotal",
-    formatUSD(order.subtotal)
-  );
-
-  fd.append(
-    "delivery_fee",
-    order.deliveryFee
-      ? formatUSD(order.deliveryFee)
-      : "Free"
-  );
-
-  fd.append(
-    "total",
-    formatUSD(order.total)
-  );
-
-  fd.append(
-    "placed_at",
-    order.placedAt
-  );
-
-  if (file) {
-    fd.append(
-      "payment_screenshot",
-      file,
-      file.name
-    );
-  }
-
-  const res = await fetch(endpoint, {
-    method: "POST",
-    headers: {
-      Accept: "application/json"
-    },
-    body: fd
-  });
-
-  if (!res.ok) {
-    throw new Error(
-      `Email service returned ${res.status}`
-    );
-  }
-
-  let data = {
-    success: true
-  };
-
-  try {
-    data = await res.json();
-  } catch {}
-
-  if (data.success === false) {
-    throw new Error(
-      "Email service rejected order"
-    );
-  }
-
-  return data;
-}
-
-
-function togglePaymentUI() {
-  const method =
-    document.querySelector(
-      'input[name="paymentMethod"]:checked'
-    )?.value;
-
-  document.querySelectorAll(".radio-option").forEach(x => {
-    x.classList.toggle(
-      "selected",
-      x.querySelector("input").checked
-    );
-  });
-
-  const crypto = method === "Crypto";
-
-  document.getElementById(
-    "crypto-payment-box"
-  ).hidden = !crypto;
-
-  document.getElementById(
-    "flutterwave-note"
-  ).hidden = crypto;
-
-  document.getElementById(
-    "place-order-btn"
-  ).innerHTML = crypto
-    ? 'Submit Payment Proof <span>→</span>'
-    : 'Continue to Secure Payment <span>→</span>';
-}
-
 
 /*
- * Opens Flutterwave's secure checkout.
- */
+|--------------------------------------------------------------------------
+| FLUTTERWAVE CHECKOUT
+|--------------------------------------------------------------------------
+*/
+
 function openFlutterwaveCheckout(order) {
   return new Promise((resolve, reject) => {
-
-    if (
-      !window.FlutterwaveCheckout
-    ) {
+    if (!window.FlutterwaveCheckout) {
       reject(
         new Error(
           "Flutterwave checkout is unavailable. Please refresh the page and try again."
@@ -684,7 +534,9 @@ function openFlutterwaveCheckout(order) {
 
     if (
       !FLUTTERWAVE_PUBLIC_KEY ||
-      FLUTTERWAVE_PUBLIC_KEY.includes("YOUR_FLUTTERWAVE")
+      FLUTTERWAVE_PUBLIC_KEY.includes(
+        "YOUR_FLUTTERWAVE"
+      )
     ) {
       reject(
         new Error(
@@ -706,8 +558,23 @@ function openFlutterwaveCheckout(order) {
 
       currency: "USD",
 
+      /*
+       * Payment methods enabled for your account.
+       *
+       * card:
+       * Local + International Cards
+       *
+       * banktransfer:
+       * Bank Transfer
+       *
+       * ussd:
+       * USSD
+       *
+       * applepay:
+       * Apple Pay
+       */
       payment_options:
-        "card,banktransfer",
+        "card,banktransfer,ussd,applepay",
 
       customer: {
         email: order.email,
@@ -729,7 +596,7 @@ function openFlutterwaveCheckout(order) {
         }
       ],
 
-      callback: function(response) {
+      callback: function (response) {
         if (completed) return;
 
         completed = true;
@@ -750,7 +617,7 @@ function openFlutterwaveCheckout(order) {
         resolve(response);
       },
 
-      onclose: function() {
+      onclose: function () {
         if (!completed) {
           reject(
             new Error(
@@ -765,423 +632,270 @@ function openFlutterwaveCheckout(order) {
   });
 }
 
+/*
+|--------------------------------------------------------------------------
+| CRYPTO PAYMENT
+|--------------------------------------------------------------------------
+*/
 
-async function handleCheckoutSubmit(e) {
-  e.preventDefault();
+function setupCryptoWallet() {
+  const walletElement = document.querySelector(
+    "#crypto-wallet-address"
+  );
 
-  if (state.submitting) return;
+  if (walletElement) {
+    walletElement.textContent =
+      CRYPTO_WALLET_ADDRESS;
+  }
+}
 
-  const form = e.target;
+function getCryptoReference() {
+  return getFormValue("payment-reference");
+}
 
-  const error =
-    document.getElementById("submit-error");
+function getCryptoScreenshot() {
+  const input = document.querySelector(
+    "#payment-screenshot"
+  );
 
-  error.hidden = true;
+  if (!input || !input.files || !input.files[0]) {
+    return null;
+  }
 
-  if (!state.cart.length) {
-    navigateTo("cart");
+  return input.files[0];
+}
+
+/*
+|--------------------------------------------------------------------------
+| CHECKOUT SUBMISSION
+|--------------------------------------------------------------------------
+*/
+
+async function handleCheckoutSubmit(event) {
+  event.preventDefault();
+
+  if (state.submitting) {
     return;
   }
 
-  if (!validate(form)) {
+  if (!validateCheckoutForm()) {
     return;
   }
 
-  const items = state.cart.map(i => {
-    const p = findProduct(i.id);
+  if (state.cart.length === 0) {
+    alert("Your cart is empty.");
+    return;
+  }
 
-    return {
-      name: p.name,
-      qty: i.qty,
-      price: p.price,
-      lineSubtotal: p.price * i.qty
-    };
-  });
-
-  const subtotal = cartSubtotal();
-
-  const payment =
-    document.querySelector(
-      'input[name="paymentMethod"]:checked'
-    ).value;
-
-  const order = {
-    orderNumber: generateOrderNumber(),
-
-    fullName:
-      document
-        .getElementById("full-name")
-        .value
-        .trim(),
-
-    email:
-      document
-        .getElementById("email")
-        .value
-        .trim(),
-
-    phone:
-      document
-        .getElementById("phone")
-        .value
-        .trim(),
-
-    address:
-      document
-        .getElementById("address")
-        .value
-        .trim(),
-
-    city:
-      document
-        .getElementById("city")
-        .value
-        .trim(),
-
-    state:
-      document
-        .getElementById("state")
-        .value,
-
-    zip:
-      document
-        .getElementById("zip")
-        .value
-        .trim(),
-
-    paymentMethod: payment,
-
-    paymentReference: "",
-
-    paymentStatus:
-      payment === "Crypto"
-        ? "Awaiting manual verification"
-        : "Pending",
-
-    items,
-
-    subtotal,
-
-    deliveryFee: DELIVERY_FEE,
-
-    total:
-      subtotal + DELIVERY_FEE,
-
-    placedAt:
-      new Date().toLocaleString(
-        "en-US",
-        {
-          timeZone: "America/New_York"
-        }
-      )
-  };
-
-  const btn =
-    document.getElementById(
-      "place-order-btn"
-    );
+  const order = buildOrder();
 
   state.submitting = true;
+  state.paymentPending = true;
 
-  btn.disabled = true;
+  const button = document.querySelector(
+    "#place-order-btn"
+  );
 
-  btn.textContent =
-    payment === "Crypto"
-      ? "Submitting proof…"
-      : "Opening secure payment…";
+  const originalButtonText =
+    button ? button.textContent : "";
 
+  if (button) {
+    button.disabled = true;
+    button.textContent = "Processing...";
+  }
 
   try {
-
     /*
-     * FLUTTERWAVE PAYMENT
+     * ---------------------------------------------------------
+     * FLUTTERWAVE
+     * ---------------------------------------------------------
      */
-    if (payment === "Flutterwave") {
 
-      const response =
+    if (order.paymentMethod === "Flutterwave") {
+      if (button) {
+        button.textContent =
+          "Opening secure payment...";
+      }
+
+      const paymentResponse =
         await openFlutterwaveCheckout(order);
 
-      btn.textContent =
-        "Verifying payment…";
+      if (
+        !paymentResponse ||
+        !paymentResponse.transaction_id
+      ) {
+        throw new Error(
+          "Flutterwave did not return a valid transaction."
+        );
+      }
 
-      await verifyFlutterwave(
-        response.transaction_id,
-        response.tx_ref || order.orderNumber,
-        order.total
-      );
+      if (button) {
+        button.textContent =
+          "Verifying payment...";
+      }
 
-      order.paymentReference =
-        String(
-          response.transaction_id
+      const verification =
+        await verifyFlutterwave(
+          paymentResponse.transaction_id,
+          order.orderNumber,
+          order.total
         );
 
-      order.paymentStatus =
-        "Paid";
+      order.paymentStatus = "Paid";
 
-      await submitOrder(
-        order,
-        null
-      );
+      order.paymentReference =
+        verification.transaction_id ||
+        paymentResponse.transaction_id;
 
-      document.getElementById(
-        "confirmation-order-number"
-      ).textContent =
-        order.orderNumber;
+      await submitOrder(order);
 
       state.cart = [];
 
       renderCart();
+      updateCartCount();
 
-      form.reset();
+      state.paymentPending = false;
 
-      togglePaymentUI();
-
-      navigateTo("confirmation");
+      showPage("confirmation");
 
       return;
     }
 
-
     /*
-     * CRYPTO PAYMENT
+     * ---------------------------------------------------------
+     * CRYPTO
+     * ---------------------------------------------------------
      */
-    if (payment === "Crypto") {
 
-      const file =
-        document
-          .getElementById(
-            "payment-screenshot"
-          )
-          .files[0];
+    if (order.paymentMethod === "Crypto") {
+      const reference = getCryptoReference();
+      const screenshot = getCryptoScreenshot();
 
-      order.paymentReference =
-        document
-          .getElementById(
-            "payment-reference"
-          )
-          .value
-          .trim();
+      if (!reference) {
+        throw new Error(
+          "Please enter your crypto payment reference."
+        );
+      }
 
-      await submitOrder(
-        order,
-        file
-      );
+      if (!screenshot) {
+        throw new Error(
+          "Please upload your crypto payment screenshot."
+        );
+      }
 
-      document.getElementById(
-        "confirmation-order-number"
-      ).textContent =
-        order.orderNumber;
+      order.paymentStatus =
+        "Awaiting manual verification";
+
+      order.paymentReference = reference;
+
+      await submitOrder(order);
 
       state.cart = [];
 
       renderCart();
+      updateCartCount();
 
-      form.reset();
+      state.paymentPending = false;
 
-      togglePaymentUI();
+      showPage("confirmation");
 
-      navigateTo("confirmation");
+      return;
     }
 
-  } catch (err) {
+    throw new Error(
+      "Please select a payment method."
+    );
 
-    console.error(err);
+  } catch (error) {
+    console.error(
+      "Checkout error:",
+      error
+    );
 
-    error.hidden = false;
-
-    error.textContent =
-      err.message ||
-      "We couldn't complete your order right now. Please try again; your cart has been kept.";
+    alert(
+      error.message ||
+        "Something went wrong while processing your order."
+    );
 
   } finally {
-
     state.submitting = false;
+    state.paymentPending = false;
 
-    btn.disabled = false;
-
-    togglePaymentUI();
+    if (button) {
+      button.disabled = false;
+      button.textContent =
+        originalButtonText ||
+        "Place Order";
+    }
   }
 }
 
-
-function init() {
-
-  document.getElementById(
-    "crypto-wallet-address"
-  ).textContent =
-    CRYPTO_WALLET_ADDRESS;
-
-  renderProductGrids();
-
-  renderCart();
-
-  document.body.addEventListener(
-    "click",
-    e => {
-
-      const nav =
-        e.target.closest(
-          "[data-nav]"
-        );
-
-      if (nav) {
-        e.preventDefault();
-
-        navigateTo(
-          nav.dataset.nav
-        );
-
-        return;
-      }
-
-
-      const add =
-        e.target.closest(
-          "[data-add]"
-        );
-
-      if (add) {
-
-        addToCart(
-          add.dataset.add
-        );
-
-        const t =
-          add.textContent;
-
-        add.textContent =
-          "Added ✓";
-
-        add.classList.add(
-          "added"
-        );
-
-        setTimeout(() => {
-          add.textContent = t;
-          add.classList.remove(
-            "added"
-          );
-        }, 900);
-
-        return;
-      }
-
-
-      const inc =
-        e.target.closest(
-          "[data-qty-increase]"
-        );
-
-      if (inc) {
-        return increaseQty(
-          inc.dataset.qtyIncrease
-        );
-      }
-
-
-      const dec =
-        e.target.closest(
-          "[data-qty-decrease]"
-        );
-
-      if (dec) {
-        return decreaseQty(
-          dec.dataset.qtyDecrease
-        );
-      }
-
-
-      const rem =
-        e.target.closest(
-          "[data-remove]"
-        );
-
-      if (rem) {
-        return removeFromCart(
-          rem.dataset.remove
-        );
-      }
-
-
-      if (
-        e.target.closest(
-          "#cart-btn"
-        )
-      ) {
-        navigateTo("cart");
-      }
-
-
-      if (
-        e.target.closest(
-          "#menu-toggle"
-        )
-      ) {
-
-        const nav =
-          document.getElementById(
-            "main-nav"
-          );
-
-        const btn =
-          document.getElementById(
-            "menu-toggle"
-          );
-
-        nav.classList.toggle(
-          "open"
-        );
-
-        btn.setAttribute(
-          "aria-expanded",
-          nav.classList.contains(
-            "open"
-          )
-        );
-      }
-    }
-  );
-
-
-  document
-    .getElementById(
-      "checkout-form"
-    )
-    .addEventListener(
-      "submit",
-      handleCheckoutSubmit
-    );
-
-
-  document
-    .querySelectorAll(
-      'input[name="paymentMethod"]'
-    )
-    .forEach(r =>
-      r.addEventListener(
-        "change",
-        togglePaymentUI
-      )
-    );
-
-
-  togglePaymentUI();
-
-  const initial =
-    location.hash.replace(
-      "#",
-      ""
-    );
-
-  navigateTo(
-    document.getElementById(initial)
-      ? initial
-      : "home"
-  );
-}
-
+/*
+|--------------------------------------------------------------------------
+| EVENT LISTENERS
+|--------------------------------------------------------------------------
+*/
 
 document.addEventListener(
   "DOMContentLoaded",
-  init
+  function () {
+    renderCart();
+    updateCartCount();
+    setupCryptoWallet();
+    updatePaymentUI();
+
+    const checkoutForm =
+      document.querySelector("#checkout-form");
+
+    if (checkoutForm) {
+      checkoutForm.addEventListener(
+        "submit",
+        handleCheckoutSubmit
+      );
+    }
+
+    document
+      .querySelectorAll(
+        'input[name="paymentMethod"]'
+      )
+      .forEach(input => {
+        input.addEventListener(
+          "change",
+          updatePaymentUI
+        );
+      });
+
+    document
+      .querySelectorAll(
+        ".add-to-cart, [data-add-to-cart]"
+      )
+      .forEach(button => {
+        button.addEventListener(
+          "click",
+          function () {
+            const productId =
+              this.dataset.productId ||
+              this.dataset.addToCart;
+
+            if (productId) {
+              addToCart(productId);
+            }
+          }
+        );
+      });
+  }
 );
+
+/*
+|--------------------------------------------------------------------------
+| MAKE FUNCTIONS AVAILABLE TO HTML onclick ATTRIBUTES
+|--------------------------------------------------------------------------
+*/
+
+window.addToCart = addToCart;
+window.removeFromCart = removeFromCart;
+window.changeQuantity = changeQuantity;
+window.goToShop = goToShop;
+window.goToCart = goToCart;
+window.goToCheckout = goToCheckout;
+window.showPage = showPage;
