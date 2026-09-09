@@ -1,6 +1,6 @@
 const ORDER_EMAIL = "shopatluxurie@gmail.com";
 const DELIVERY_FEE = 0;
-const PAYSTACK_PUBLIC_KEY = "pk_test_REPLACE_WITH_YOUR_PUBLIC_KEY";
+const PAYSTACK_PUBLIC_KEY = "pk_test_42cb5864d115d502cae9fcd1073efec39bb6ebde";
 const CRYPTO_WALLET_ADDRESS = "0xB7eee0CE50092919E7Aec0Cfb3ABD279052b7A96";
 const PRODUCTS = [
   {id:"earbuds",name:"Wireless Earbuds",category:"Audio essential",price:39,image:"images/earbuds.svg"},
